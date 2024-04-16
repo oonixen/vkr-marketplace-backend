@@ -1,0 +1,1 @@
+CREATE DATABASE vkr_marketplace;
