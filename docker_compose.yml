@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
       POSTGRES_DB: bookshop-db
-
+    command: postgres -c timezone='Indian/Reunion'
     ports:
       - '${POSTGRES_PORT}:${POSTGRES_PORT}'
     volumes:

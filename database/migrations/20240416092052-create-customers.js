@@ -1,32 +1,36 @@
 'use strict';
 
-const tableName = 'customers';
+const customersTableName = 'customers';
+const customersColumns = {
+  id: 'id',
+  phone: 'phone',
+  balance: 'balance',
+};
 
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    return queryInterface.createTable(tableName, {
-      id: {
+    return queryInterface.createTable(customersTableName, {
+      [customersColumns.id]: {
         type: Sequelize.DataTypes.BIGINT,
-        unique: true,
         autoIncrement: true,
         primaryKey: true,
-        allowNull: false,
       },
-      phone: {
+      [customersColumns.phone]: {
         type: Sequelize.DataTypes.STRING(12),
         unique: true,
         allowNull: false,
       },
-      balance: {
+      [customersColumns.balance]: {
         type: Sequelize.DataTypes.INTEGER,
         defaultValue: 0,
         allowNull: false,
       },
     });
   },
-
   async down(queryInterface, Sequelize) {
-    return queryInterface.dropTable(tableName);
+    return queryInterface.dropTable(customersTableName);
   },
+  customersColumns,
+  customersTableName,
 };
