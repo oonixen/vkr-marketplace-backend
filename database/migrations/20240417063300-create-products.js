@@ -31,7 +31,6 @@ module.exports = {
       },
       [productsColumns.amount]: {
         type: Sequelize.DataTypes.INTEGER,
-        defaultValue: 0,
         allowNull: false,
       },
     });
