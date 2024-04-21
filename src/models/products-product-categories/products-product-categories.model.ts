@@ -1,4 +1,4 @@
-import { Model, Table, Column, DataType, ForeignKey, HasMany, HasOne } from 'sequelize-typescript';
+import { Model, Table, Column, DataType, ForeignKey, HasMany, HasOne, BelongsTo } from 'sequelize-typescript';
 import { Products } from '../products/products.model';
 import { ProductCategories } from '../product-categories/product-categories.model';
 
@@ -15,9 +15,9 @@ export class ProductsProductCategories extends Model<ProductsProductCategories> 
   @Column({ type: DataType.BIGINT, allowNull: false })
   product_category_id: string;
 
-  @HasOne(() => Products)
+  @BelongsTo(() => Products)
   product: Products;
 
-  @HasOne(() => ProductCategories)
+  @BelongsTo(() => ProductCategories)
   product_category: ProductCategories;
 }

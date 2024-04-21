@@ -5,7 +5,7 @@ import { CustomersAuth } from '../customers-auth/customers-auth.model';
 
 @Injectable()
 export class CustomersService {
-  constructor(@InjectModel(Customers) private readonly customers: typeof Customers) {}
+  constructor(@InjectModel(Customers) private customers: typeof Customers) {}
 
   async getAll() {
     const res = await this.customers.findAll({ include: [CustomersAuth] });

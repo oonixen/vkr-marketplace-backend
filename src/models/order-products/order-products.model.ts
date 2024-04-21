@@ -1,4 +1,4 @@
-import { Column, DataType, ForeignKey, HasOne, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, HasOne, Model, Table } from 'sequelize-typescript';
 import { Orders } from '../orders/orders.model';
 import { Products } from '../products/products.model';
 import { OrderProductsProductModifiers } from '../order-products-product-modifiers/order-products-product-modifiers.model';
@@ -19,10 +19,10 @@ export class OrderProducts extends Model<OrderProducts> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   amount: number;
 
-  @HasOne(() => Orders)
+  @BelongsTo(() => Orders)
   order: Orders;
 
-  @HasOne(() => Products)
+  @BelongsTo(() => Products)
   product: Products;
 
   @HasOne(() => OrderProductsProductModifiers)

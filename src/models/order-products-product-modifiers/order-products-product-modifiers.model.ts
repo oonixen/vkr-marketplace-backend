@@ -1,4 +1,4 @@
-import { Column, DataType, HasOne, Model, Table } from 'sequelize-typescript';
+import { BelongsTo, Column, DataType, ForeignKey, HasOne, Model, Table } from 'sequelize-typescript';
 import { OrderProducts } from '../order-products/order-products.model';
 import { ProductModifiers } from '../product-modifiers/product-modifiers.model';
 
@@ -7,15 +7,17 @@ export class OrderProductsProductModifiers extends Model<OrderProductsProductMod
   @Column({ type: DataType.BIGINT, autoIncrement: true, primaryKey: true })
   id: string;
 
+  @ForeignKey(() => OrderProducts)
   @Column({ type: DataType.BIGINT, allowNull: false })
   order_product_id: string;
 
+  @ForeignKey(() => ProductModifiers)
   @Column({ type: DataType.STRING, allowNull: false })
   product_modifier_id: string;
 
-  @HasOne(() => OrderProducts)
+  @BelongsTo(() => OrderProducts)
   order_products: OrderProducts;
 
-  @HasOne(() => ProductModifiers)
+  @BelongsTo(() => ProductModifiers)
   product_modifier: ProductModifiers;
 }

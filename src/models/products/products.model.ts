@@ -1,8 +1,9 @@
-import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { BelongsToMany, Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
 import { OrderProducts } from '../order-products/order-products.model';
 import { ProductsProductModifiers } from '../products-product-modifiers/products-product-modifiers.model';
 import { ProductsProductCategories } from '../products-product-categories/products-product-categories.model';
 import { ProductsProductImages } from '../products-product-images/products-product-images.model';
+import { ProductModifiers } from '../product-modifiers/product-modifiers.model';
 
 @Table({ tableName: 'products' })
 export class Products extends Model<Products> {
@@ -32,4 +33,7 @@ export class Products extends Model<Products> {
 
   @HasMany(() => ProductsProductImages)
   products_product_images: ProductsProductImages[];
+
+  @BelongsToMany(() => ProductModifiers, { through: () => ProductsProductModifiers })
+  modifiers: ProductModifiers[];
 }
