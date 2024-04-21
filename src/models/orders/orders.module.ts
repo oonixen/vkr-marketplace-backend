@@ -7,10 +7,13 @@ import { OrderProducts } from '../order-products/order-products.model';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { OrderProductsProductModifiers } from '../order-products-product-modifiers/order-products-product-modifiers.model';
+import { Customers } from '../customers/customers.model';
 
 @Module({
   controllers: [OrdersController],
-  imports: [SequelizeModule.forFeature([Orders, Stores, Products, OrderProducts, OrderProductsProductModifiers])],
+  imports: [
+    SequelizeModule.forFeature([Orders, Stores, Products, OrderProducts, OrderProductsProductModifiers, Customers]),
+  ],
   providers: [OrdersService],
 })
 export class OrdersModule {}

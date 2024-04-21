@@ -7,6 +7,7 @@ import { Orders } from './orders.model';
 import { Products } from '../products/products.model';
 import { OrderProducts } from '../order-products/order-products.model';
 import { OrderProductsProductModifiers } from '../order-products-product-modifiers/order-products-product-modifiers.model';
+import { Customers } from '../customers/customers.model';
 
 type CreateOrderProps = { dto: OrdersCreateOrderBodyDto; response: Response; customerId: string };
 
@@ -19,17 +20,23 @@ export class OrdersService {
     @InjectModel(OrderProducts) private orderProductsDb: typeof OrderProducts,
     @InjectModel(OrderProductsProductModifiers)
     private orderProductsProductModifiersDb: typeof OrderProductsProductModifiers,
+    @InjectModel(Customers) private customersDb: typeof Customers,
   ) {}
 
   async createOrder({ dto, response, customerId }: CreateOrderProps) {
+    let price: number;
     const store = await this.storesDb.findOne({ where: { id: dto.store } });
-    if (!store) return response.status(HttpStatus.OK).json({ error: 'Пункт выдачи не найден' });
+    if (!store) return this.returnOrderError('Пункт выдачи не найден', response);
 
     try {
-      await this.insertOrder(dto, customerId);
+      price = await this.insertOrder(dto, customerId);
     } catch (e) {
-      return response.status(HttpStatus.OK).json({ error: 'Ошибка в данных' });
+      return this.returnOrderError('Ошибка в данных', response);
     }
+
+    const customer = await this.customersDb.findOne({ where: { id: customerId } });
+    const balance = customer.balance - price;
+    await this.customersDb.update({ balance }, { where: { id: customerId } });
 
     return response.status(HttpStatus.CREATED).send('Created');
   }
@@ -53,9 +60,15 @@ export class OrdersService {
     const orderProducts = await this.orderProductsDb.bulkCreate(createOrderProductsProps);
     const createOrderProductsProductModifiersProps = orderProducts.map((v, index) => ({
       order_product_id: v.id,
-      product_modifier_id: dto.goods[index].modifier,
+      product_modifier_id: dto.goods[index].modifier.id,
     }));
 
     await this.orderProductsProductModifiersDb.bulkCreate(createOrderProductsProductModifiersProps);
+
+    return price;
+  }
+
+  private returnOrderError(error: string, response: Response) {
+    return response.status(HttpStatus.OK).json({ error });
   }
 }
