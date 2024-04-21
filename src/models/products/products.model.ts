@@ -4,6 +4,7 @@ import { ProductsProductModifiers } from '../products-product-modifiers/products
 import { ProductsProductCategories } from '../products-product-categories/products-product-categories.model';
 import { ProductsProductImages } from '../products-product-images/products-product-images.model';
 import { ProductModifiers } from '../product-modifiers/product-modifiers.model';
+import { ProductImages } from '../product-images/product-images.model';
 
 @Table({ tableName: 'products' })
 export class Products extends Model<Products> {
@@ -19,9 +20,6 @@ export class Products extends Model<Products> {
   @Column({ type: DataType.INTEGER, allowNull: false })
   price: number;
 
-  @Column({ type: DataType.INTEGER, allowNull: false })
-  amount: number;
-
   @HasMany(() => OrderProducts)
   order_products: OrderProducts[];
 
@@ -36,4 +34,7 @@ export class Products extends Model<Products> {
 
   @BelongsToMany(() => ProductModifiers, { through: () => ProductsProductModifiers })
   modifiers: ProductModifiers[];
+
+  @BelongsToMany(() => ProductImages, { through: () => ProductsProductImages })
+  images: ProductImages[];
 }

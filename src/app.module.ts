@@ -27,6 +27,7 @@ import { ProductImages } from './models/product-images/product-images.model';
 import { ProductImagesModule } from './models/product-images/product-images.module';
 import { ProductsProductImages } from './models/products-product-images/products-product-images.model';
 import { ProductsProductImagesModule } from './models/products-product-images/products-product-images.module';
+import { AuthModule } from './models/auth/auth.module';
 
 const configDynamicModule = ConfigModule.forRoot({
   envFilePath: `.env.${process.env.NODE_ENV}`,
@@ -72,6 +73,7 @@ const imports = [
   ProductsProductCategoriesModule,
   ProductImagesModule,
   ProductsProductImagesModule,
+  AuthModule,
 ];
 
 @Module({

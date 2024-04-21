@@ -7,8 +7,8 @@ import { CustomersAuth } from '../customers-auth/customers-auth.model';
 export class CustomersService {
   constructor(@InjectModel(Customers) private customers: typeof Customers) {}
 
-  async getAll() {
-    const res = await this.customers.findAll({ include: [CustomersAuth] });
+  async getUser(userId: string) {
+    const res = await this.customers.findOne({ where: { id: userId }, attributes: { exclude: ['id'] } });
 
     return res;
   }

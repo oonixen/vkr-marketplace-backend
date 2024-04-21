@@ -1,5 +1,6 @@
-import { Table, Column, DataType, Model, HasMany } from 'sequelize-typescript';
+import { Table, Column, DataType, Model, HasMany, BelongsToMany } from 'sequelize-typescript';
 import { ProductsProductCategories } from '../products-product-categories/products-product-categories.model';
+import { Products } from '../products/products.model';
 
 @Table({ tableName: 'product_categories' })
 export class ProductCategories extends Model<ProductCategories> {
@@ -11,4 +12,7 @@ export class ProductCategories extends Model<ProductCategories> {
 
   @HasMany(() => ProductsProductCategories)
   products_product_categories: ProductsProductCategories[];
+
+  @BelongsToMany(() => Products, { through: () => ProductsProductCategories })
+  products: Products[];
 }
