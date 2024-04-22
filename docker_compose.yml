@@ -4,17 +4,38 @@ services:
   db:
     image: postgres:16.2-alpine3.19
     container_name: db
+    restart: unless-stopped
     environment:
       PG_DATA: /var/lib/postgresql/data
-      POSTGRES_USER: postgres
+      POSTGRES_USER: $POSTGRES_USER
       POSTGRES_PASSWORD: $POSTGRES_PASSWORD
-      POSTGRES_DB: bookshop-db
+      POSTGRES_DB: $POSTGRES_DATABASE
     command: postgres -c timezone='Indian/Reunion'
     ports:
       - '${POSTGRES_PORT}:${POSTGRES_PORT}'
     volumes:
       - pgdata:/var/lib/postgresql/data
       - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+  budibase:
+    image: budibase/budibase:latest
+    container_name: admin-panel
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - '${ADMIN_PANEL_HOST}:80'
+    environment:
+      JWT_SECRET: $ADMIN_PANEL_JWT_SECRET
+      MINIO_ACCESS_KEY: $ADMIN_PANEL_MINIO_ACCESS_KEY
+      MINIO_SECRET_KEY: $ADMIN_PANEL_MINIO_SECRET_KEY
+      REDIS_PASSWORD: $ADMIN_PANEL_REDIS_PASSWORD
+      COUCHDB_USER: $ADMIN_PANEL_COUCHDB_USER
+      COUCHDB_PASSWORD: $ADMIN_PANEL_COUCHDB_PASSWORD
+      INTERNAL_API_KEY: $ADMIN_PANEL_INTERNAL_API_KEY
+    volumes:
+      - budibase_data:/data
 
 volumes:
   pgdata:
+  budibase_data:
+    driver: local
