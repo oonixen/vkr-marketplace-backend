@@ -8,6 +8,7 @@ import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { OrderProductsProductModifiers } from '../order-products-product-modifiers/order-products-product-modifiers.model';
 import { Customers } from '../customers/customers.model';
+import { Sequelize } from 'sequelize-typescript';
 
 @Module({
   controllers: [OrdersController],
