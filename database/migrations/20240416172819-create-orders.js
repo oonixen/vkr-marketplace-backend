@@ -11,7 +11,6 @@ const ordersColumns = {
   comment: 'comment',
   price: 'price',
   date: 'date',
-  is_received: 'is_received',
 };
 
 /** @type {import('sequelize-cli').Migration} */
@@ -52,11 +51,6 @@ module.exports = {
       [ordersColumns.date]: {
         type: Sequelize.DataTypes.DATE,
         allowNull: false,
-      },
-      [ordersColumns.is_received]: {
-        type: Sequelize.DataTypes.BOOLEAN,
-        allowNull: false,
-        defaultValue: false,
       },
     });
   },

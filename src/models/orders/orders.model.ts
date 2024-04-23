@@ -25,9 +25,6 @@ export class Orders extends Model<Orders> {
   @Column({ type: DataType.DATE, allowNull: false })
   date: string;
 
-  @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
-  is_received: boolean;
-
   @HasMany(() => OrderProducts)
   order_products: OrderProducts[];
 
